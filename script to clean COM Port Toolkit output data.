@@ -1,0 +1,74 @@
+import os
+#script to clean COM Port Toolkit output data.
+def procRawByte(inChar):
+  global curState
+  global cntChar
+  global numOfchars
+  if(stBlckNum==curState):
+    numOfchars=0
+    cntChar=cntChar+1;
+    if(' '==inChar):
+      curState=stTime
+  elif(stTime==curState):
+    if(' '==inChar):
+      curState=stData
+  elif(stData==curState):
+    outFile.write(inChar)
+    numOfchars=numOfchars+1
+    if(49==numOfchars):
+      curState=stAscii
+  elif(stAscii==curState):
+     if('\n'==inChar):
+       curState=stBlckNum
+       outFile.write(inChar)
+     if('\r'==inChar):
+       curState=stBlckNum  
+  else:
+    curState=stError
+	
+stBlckNum= 0
+stTime   = 1
+stData   = 2
+stAscii  = 3
+stError  = 4
+
+numOfchars=0
+cntChar=0
+	
+curState      = stBlckNum
+lenOfSequence = 0 
+numOfstage    = 0 
+
+
+numOfSubstit=0;
+percentageOfExecution=0
+folder_size = os.path.getsize('COM_port_toolkit_dump_raw.txt')
+
+print("size of folder "+str(folder_size)+" byte")
+
+f = open('COM_port_toolkit_dump_raw.txt', 'r')
+outFile = open("COM_port_toolkit_dump_result.txt", "w")
+print ("initial file: " +f.name)
+
+n       = folder_size;
+hexBase = 16;
+step = folder_size/10;
+
+for i in range(n):
+    inputByte=   f.read(1) ;
+    procRawByte(inputByte)
+    rest=(i% step )
+    if(rest==0):
+      percentageOfExecution=100*i/folder_size
+      rest=percentageOfExecution%10
+      print(str(percentageOfExecution)+"%")
+
+f.close()
+outFile.close()
+print ("final file: COM_port_toolkit_dump_result.txt")
+
+
+print("Done !")
+
+
+
