@@ -5,4 +5,4 @@
 # 1) it is easier to find it and edit them if necessary
 # 2) and also these define can be used in other files.
 
-grep -r "#define" | grep ".c:" > defines_in_c_files.txt
+grep -r "#define" | grep ".c:"  | grep -v "unwanted_word"> defines_in_c_files.txt
