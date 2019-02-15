@@ -6,3 +6,7 @@
 # 2) and also these define can be used in other files.
 
 grep -r "#define" | grep ".c:"  | grep -v "unwanted_word"> defines_in_c_files.txt
+
+grep "#define" $(find -name "*.c" ) | grep -v "unwanted_word1"| grep -v "unwanted_word2"> 
+cat c_files_with_defines_in_curr_dir.txt
+
