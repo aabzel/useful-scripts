@@ -7,9 +7,12 @@
 
 grep -r "#define" | grep ".c:"  | grep -v "unwanted_word"> defines_in_c_files.txt
 
-grep "#define" $(find -name "*.c" ) | grep -v "unwanted_word1"| grep -v "unwanted_word2"> c_files_with_defines_in_curr_dir.txt
+var="#define"
+fileExtention="*.c"
+unwantedWord1="Drivers"
+unwantedWord2="Middlewares"
+grep $var $(find -name $fileExtention ) | grep -v $unwantedWord1| grep -v $unwantedWord2 > c_files_with_defines_in_curr_dir.txt
 echo "rule violation: defines in .c file"
 cat c_files_with_defines_in_curr_dir.txt
-pause 10
 
 
